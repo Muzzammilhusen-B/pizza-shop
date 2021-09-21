@@ -10,10 +10,9 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <FoodDialog />
+      <FoodDialog openFood={openFood} setOpenFood={setOpenFood} />
       <Navbar />
       <Banner />
-      <div>{openFood}</div>
       <Menu setOpenFood={setOpenFood} />
     </>
   );
