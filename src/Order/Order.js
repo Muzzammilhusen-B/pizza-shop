@@ -7,6 +7,7 @@ import {
 } from "../FoodDialog/FoodDialoge";
 import {formatPrice} from "../Data/FoodData";
 import {useOpenFood} from "../Hooks/useOpenFood";
+import {getPrice} from "../FoodDialog/FoodDialoge";
 
 const OrderStyled = styled.div`
   position: fixed;
@@ -52,10 +53,10 @@ export function Order({orders}) {
             {orders.map((order) => (
               <OrderContainer>
                 <OrderItems>
-                  <div>1</div>
+                  <div>{order.quantity}</div>
                   <div>{order.name}</div>
                   <div />
-                  <div>{formatPrice(order.price)}</div>
+                  <div>{formatPrice(getPrice(order))}</div>
                 </OrderItems>
               </OrderContainer>
             ))}
