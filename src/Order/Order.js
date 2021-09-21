@@ -6,7 +6,6 @@ import {
   ConfirmButton,
 } from "../FoodDialog/FoodDialoge";
 import {formatPrice} from "../Data/FoodData";
-import {useOpenFood} from "../Hooks/useOpenFood";
 import {getPrice} from "../FoodDialog/FoodDialoge";
 
 const OrderStyled = styled.div`
@@ -74,6 +73,7 @@ export function Order({orders}) {
                     .map((topping) => topping.name)
                     .join(", ")}
                 </DetailItem>
+                {order.choice && <DetailItem>{order.choice}</DetailItem>}
               </OrderContainer>
             ))}
             <OrderContainer>

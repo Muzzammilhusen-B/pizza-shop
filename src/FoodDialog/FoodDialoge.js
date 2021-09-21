@@ -8,6 +8,8 @@ import {QuantityInput} from "./QuantityInput";
 import {useQuantity} from "../Hooks/useQuantity";
 import {Toppings} from "./Toppings";
 import {useToppings} from "../Hooks/useToppings";
+import {useChoice} from "../Hooks/useChoice";
+import {Choices} from "./Choices";
 
 const Dialog = styled.div`
   width: 500px;
@@ -49,19 +51,25 @@ export const ConfirmButton = styled(Title)`
   text-align: center;
   cursor: pointer;
   background-color: ${pizzaRed};
+  ${({disabled}) =>
+    disabled &&
+    ` opactity: .5; 
+    background-color: grey; 
+    pointer-events: none; 
+  `}
 `;
 
 const DialogBanner = styled.div`
   height: 200px;
   margin-bottom: 20px;
-  ${({img}) => `background-image:url(${img});`}
+  ${({img}) => (img ? `background-image: url(${img});` : `min-height: 75px;`)}
   background-position:center;
   background-size: cover;
 `;
 const DialogBannerName = styled(FoodLabel)`
-  top: 100px;
   font-size: 30px;
   padding: 5px 40px;
+  top: ${({img}) => (img ? `100px` : `20px`)};
 `;
 
 const DialogShadow = styled.div`
@@ -91,6 +99,7 @@ function hasToppings(food) {
 function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
   const quantity = useQuantity(openFood && openFood.quantity);
   const toppings = useToppings(openFood.toppings);
+  const choiceRadio = useChoice(openFood.choice);
 
   function close() {
     setOpenFood();
@@ -100,6 +109,7 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
     ...openFood,
     quantity: quantity.value,
     toppings: toppings.toppings,
+    choice: choiceRadio.value,
   };
 
   function addToOrder() {
@@ -122,9 +132,15 @@ function FoodDialogContainer({openFood, setOpenFood, orders, setOrders}) {
               <Toppings {...toppings} />
             </>
           )}
+          {openFood.choices && (
+            <Choices choiceRadio={choiceRadio} openFood={openFood} />
+          )}
         </DialogContent>
         <DialogFooter>
-          <ConfirmButton onClick={addToOrder}>
+          <ConfirmButton
+            onClick={addToOrder}
+            disabled={openFood.choices && !choiceRadio.value}
+          >
             Add to order:{formatPrice(getPrice(order))}
           </ConfirmButton>
         </DialogFooter>
