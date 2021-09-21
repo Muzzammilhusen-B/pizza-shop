@@ -5,6 +5,9 @@ import {
   DialogFooter,
   ConfirmButton,
 } from "../FoodDialog/FoodDialoge";
+import {formatPrice} from "../Data/FoodData";
+import {useOpenFood} from "../Hooks/useOpenFood";
+
 const OrderStyled = styled.div`
   position: fixed;
   right: 0px;
@@ -32,6 +35,9 @@ const OrderContainer = styled.div`
 
 const OrderItems = styled.div`
   padding: 10px 0px;
+  display: grid;
+  grid-template-columns: 20px 150px 20px 60px;
+  justify-content: space-between;
 `;
 
 export function Order({orders}) {
@@ -45,7 +51,12 @@ export function Order({orders}) {
             <OrderContainer>Your Order:</OrderContainer>
             {orders.map((order) => (
               <OrderContainer>
-                <OrderItems>{order.name}</OrderItems>
+                <OrderItems>
+                  <div>1</div>
+                  <div>{order.name}</div>
+                  <div />
+                  <div>{formatPrice(order.price)}</div>
+                </OrderItems>
               </OrderContainer>
             ))}
           </OrderContent>
